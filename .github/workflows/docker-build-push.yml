@@ -8,7 +8,7 @@ jobs:
   push-artifact:
     runs-on: ubuntu-latest
     steps:
-      - id: "auth"
+      - name: "Authenticate with Google Cloud"
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
@@ -16,7 +16,7 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
-      - name: "Use gcloud CLI"
+      - name: "Verify gcloud CLI Installation"
         run: "gcloud info"
 # env:
 #   IMAGE_NAME: "my-app-image"
