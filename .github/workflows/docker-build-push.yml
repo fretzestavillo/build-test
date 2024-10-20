@@ -18,7 +18,10 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Print environment variables
-        run: env # This will print all environment variables
+        run: |
+          echo "Printing GOOGLE_CREDENTIALS (masked): ${{ secrets.GOOGLE_CREDENTIALS }}"
+          # If you want to see specific environment variables, you can access them like this
+          echo "Some other environment variable: $OTHER_VARIABLE"
 
       - name: Run gcloud command
         run: |
