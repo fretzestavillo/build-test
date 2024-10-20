@@ -1,25 +1,29 @@
-name: Push to Artifact Registry
+name: CI/CD Workflow
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
-  push-artifact:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: "Authenticate with Google Cloud"
-        uses: "google-github-actions/auth@v2"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud authentication
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v2"
-
-      - name: "Verify gcloud CLI Installation"
-        run: "gcloud info"
+      - name: Run gcloud command
+        run: |
+          gcloud auth list
+          gcloud compute instances list  # Example command
 
       # Add additional steps for building and pushing your Docker image here
+
 # env:
 #   IMAGE_NAME: "my-app-image"
 #   PROJECT_ID: "rpi-hub-438905"
