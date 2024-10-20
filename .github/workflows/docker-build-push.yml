@@ -8,7 +8,7 @@ jobs:
   push-artifact:
     runs-on: ubuntu-latest
     steps:
-      - name: "Check if GCP_CREDENTIALS is available"
+      - name: "Check if GCP_CREDENTIALS is available as"
         run: echo "GCP_CREDENTIALS is set"
         if: ${{ secrets.GCP_CREDENTIALS != '' }}
 
