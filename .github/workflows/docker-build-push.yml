@@ -1,0 +1,50 @@
+# name: Push to Artifact Registry
+
+# on:
+#   push:
+#     branches: ["main"]
+
+# env:
+#   IMAGE_NAME: "my-app-image"
+#   PROJECT_ID: "rpi-hub-438905"
+#   AR_REPO_LOCATION: "asia-southeast1"
+#   AR_URL: "asia-southeast1-docker.pkg.dev/rpi-hub-438905/piso-wifi-repository"
+#   SERVICE_ACCOUNT: "422041495987-compute@developer.gserviceaccount.com"
+#   WORKLOAD_IDENTITY_PROVIDER: "projects/422041495987/locations/global/workloadIdentityPools/piso-wifi-dev-pool/providers/github-actions-provider"
+
+# jobs:
+#   push_to_ar:
+#     permissions:
+#       contents: "read"
+#       id-token: "write"
+
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+
+#       - name: Google Auth
+#         id: auth
+#         uses: "google-github-actions/auth@v2"
+#         with:
+#           token_format: "access_token"
+#           project_id: ${{ env.PROJECT_ID }}
+#           service_account: ${{ env.SERVICE_ACCOUNT }}
+#           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+#           create_credentials_file: true  # Ensure the credentials file is created
+#           export_environment_variables: true  # Export environment variables for use later
+#           access_token_lifetime: "3600s"
+#           access_token_scopes: "https://www.googleapis.com/auth/cloud-platform"
+
+#       - name: Docker Auth
+#         id: docker-auth
+#         uses: "docker/login-action@v1"
+#         with:
+#           username: "oauth2accesstoken"
+#           password: "${{ steps.auth.outputs.access_token }}"
+#           registry: "${{ env.AR_REPO_LOCATION }}-docker.pkg.dev"
+
+#       - name: Build and Push Container
+#         run: |-
+#           docker build -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
+#           docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
