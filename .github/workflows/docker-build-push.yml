@@ -4,18 +4,20 @@ on:
   push:
     branches: ["main"]
 
-  jobs:
-  steps:
-    - id: "auth"
-      uses: "google-github-actions/auth@v2"
-      with:
-        credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+jobs:
+  push-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
 
-    - name: "Set up Cloud SDK"
-      uses: "google-github-actions/setup-gcloud@v2"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
 
-    - name: "Use gcloud CLI"
-      run: "gcloud info"
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
 # env:
 #   IMAGE_NAME: "my-app-image"
 #   PROJECT_ID: "rpi-hub-438905"
