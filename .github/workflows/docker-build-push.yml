@@ -8,28 +8,18 @@ jobs:
   push-artifact:
     runs-on: ubuntu-latest
     steps:
-      - name: "Check if GCP_CREDENTIALS is available"
-        run: |
-          if [ -z "${{ secrets.GCP_CREDENTIALS }}" ]; then
-            echo "GCP_CREDENTIALS is not set. Exiting."
-            exit 1
-          else
-            echo "GCP_CREDENTIALS is set."
-          fi
-
-      - name: "Decode GCP_CREDENTIALS"
-        run: echo "${{ secrets.GCP_CREDENTIALS }}" | base64 --decode > gcp_credentials.json
-
       - name: "Authenticate with Google Cloud"
         uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: gcp_credentials.json
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
       - name: "Verify gcloud CLI Installation"
         run: "gcloud info"
+
+      # Add additional steps for building and pushing your Docker image here
 # env:
 #   IMAGE_NAME: "my-app-image"
 #   PROJECT_ID: "rpi-hub-438905"
