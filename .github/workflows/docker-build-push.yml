@@ -13,6 +13,10 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
+      - name: "Check if GCP_CREDENTIALS is available"
+        run: echo "GCP_CREDENTIALS is set"
+        if: ${{ secrets.GCP_CREDENTIALS != '' }}
+
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
