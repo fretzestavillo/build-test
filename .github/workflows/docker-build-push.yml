@@ -6,13 +6,16 @@ on:
       - main
 
 jobs:
-  job_id:
+  build: # Changed job_id to a descriptive name
+    runs-on: ubuntu-latest # Specify the runner environment
     steps:
-      - uses: "actions/checkout@v4"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: "google-github-actions/auth@v2"
+      - name: Set up Google Cloud authentication
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Run gcloud command
         run: |
