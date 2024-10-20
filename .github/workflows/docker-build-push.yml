@@ -6,23 +6,20 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  job_id:
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: "actions/checkout@v4"
 
-      - name: Set up Google Cloud authentication
-        uses: google-github-actions/auth@v2
+      - uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
 
       - name: Run gcloud command
         run: |
           gcloud auth list
           gcloud compute instances list  # Example command
 
-      # Add additional steps for building and pushing your Docker image here
+        # Add additional steps for building and pushing your Docker image here
 
 # env:
 #   IMAGE_NAME: "my-app-image"
