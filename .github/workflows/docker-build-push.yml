@@ -1,20 +1,24 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   job_id:
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: "read"
-      id-token: "write"
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v4"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: "google-github-actions/auth@v2"
+      - name: Set up Google Cloud authentication
+        uses: google-github-actions/auth@v2
         with:
           project_id: "rpi-hub-438905"
           workload_identity_provider: "projects/422041495987/locations/global/workloadIdentityPools/oidc-pool/providers/github"
-# service_name: rpi-hub
-# gcp_project_id: rpi-hub-438905
-# gcp_project_number: 422041495987
-# gcp_identity_pool: oidc-pool
-# gcp_identity_pool_provider: github
-# gcp_gar_repository: piso-wifi-repository
+
+      - name: Run gcloud command
+        run: |
+          gcloud auth list
+          gcloud compute instances list  # Example command
